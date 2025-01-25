@@ -37,7 +37,6 @@ export default function LogingPage() {
       
         Cookies.set('authToken', response.data.token, {
           expires: 7, // Durée de validité de 7 jours
-          secure: process.env.NODE_ENV === 'production', // Secure en production uniquement
           sameSite: 'Strict', // Protection CSRF
         });
     
