@@ -3,13 +3,12 @@ import { useState } from 'react';
 import { PasswordInput, Group, Button, Box, TextInput, Loader, Text, } from '@mantine/core';
 import axiosInstance from '../services/axiosConfig';
 import { AxiosError } from 'axios';
-import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function LogingPage() {
-  const router = useRouter();
+  const router = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -37,12 +36,11 @@ export default function LogingPage() {
       
         Cookies.set('authToken', response.data.token, {
           expires: 7, // Durée de validité de 7 jours
-          secure: process.env.NODE_ENV === 'production', // Secure en production uniquement
           sameSite: 'Strict', // Protection CSRF
         });
     
         // Optionnel : Rediriger l'utilisateur vers le dashboard après inscription
-        router.push('/');
+        router('/');
       }
 
 
@@ -108,7 +106,7 @@ export default function LogingPage() {
 
       <Text mt="md" size="sm" ta="center">
         Pas de compte ?{' '}
-        <Link href="/register" passHref>
+        <Link to="/">
           Crée en un !!
         </Link>
       </Text>

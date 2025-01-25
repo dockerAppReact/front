@@ -13,6 +13,24 @@ services:
       mynetwork:
         ipv4_address: 172.28.0.5
 
+  front:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../src:/app/src
+      - ../node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - mydb
+    environment:
+      REACT_PUBLIC_API_URL: ${REACT_PUBLIC_API_URL}
+      REACT_PUBLIC_SERVER_PYTHON_URL: ${REACT_PUBLIC_SERVER_PYTHON_URL}
+    networks:
+      mynetwork:
+        ipv4_address: 172.28.0.3
+
   back:
     image: ghcr.io/dockerappsandbox/back:dev
     volumes:
@@ -26,6 +44,7 @@ services:
       BACK_PORT: ${BACK_PORT}
     depends_on:
       - mydb
+      - front
     networks:
       mynetwork:
         ipv4_address: 172.28.0.2

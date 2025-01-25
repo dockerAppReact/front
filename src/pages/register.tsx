@@ -3,12 +3,11 @@ import { useState } from 'react';
 import { PasswordInput, Group, Button, Box, TextInput, Loader, Text } from '@mantine/core';
 import axiosInstance from '../services/axiosConfig';
 import { AxiosError } from 'axios';
-import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
-  const router = useRouter();
+  const router = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -48,7 +47,7 @@ export default function RegisterPage() {
         });
 
         setTimeout(() => {
-          router.push('/');
+          router('/');
         }, 500); // Permet au cookie de s'enregistrer avant la redirection
       }
     } catch (error: unknown) {
@@ -106,7 +105,7 @@ export default function RegisterPage() {
 
       <Text mt="md" size="sm" ta="center">
         Déjà un compte ?{' '}
-        <Link href="/login" passHref>
+        <Link to="/login">
           Connectez-vous !!
         </Link>
       </Text>
