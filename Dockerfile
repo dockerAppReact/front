@@ -1,21 +1,3 @@
-# Étape de construction (builder)
-FROM node:20.10.0-alpine AS builder
-
-# Définir le répertoire de travail
-WORKDIR /app
-
-# Copier package.json et package-lock.json pour installer les dépendances
-COPY package.json package-lock.json ./
-
-# Installer toutes les dépendances (y compris celles de dev pour construire le projet)
-RUN npm install
-
-# Copier tout le reste des fichiers source
-COPY . .
-
-# Compiler l'application avec Vite
-RUN npm run build
-
 # Étape d'exécution (runner)
 FROM node:20.10.0-alpine AS runner
 
@@ -37,9 +19,6 @@ RUN npm cache clean --force
 
 # Configurer l'environnement en production
 ENV NODE_ENV=production
-
-# Exposer le port utilisé par Vite
-EXPOSE 5173
 
 # Commande pour démarrer l'application
 CMD ["npm", "run", "dev"]

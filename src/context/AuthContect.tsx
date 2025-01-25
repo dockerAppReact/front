@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import { getAuthToken, removeAuthToken } from '../services/auth';
 
 interface AuthContextType {
@@ -12,7 +12,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
+  const router = useNavigate();
 
   useEffect(() => {
     const token = getAuthToken();
@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setIsAuthenticated(false);
       // Rediriger si l'utilisateur tente d'accéder à une page protégée
-      const publicPages = ['/login', '/register'];
-      if (!publicPages.includes(router.pathname)) {
-        router.push('/login');
+      const publicPages = ['/login', '/'];
+      if (!publicPages.includes(window.location.pathname)) {
+        router('/login');
       }
     }
     setLoading(false);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     removeAuthToken(); // Supprimer le token
     setIsAuthenticated(false);
-    router.push('/login');
+    router('/login');
   };
 
   if (loading) {

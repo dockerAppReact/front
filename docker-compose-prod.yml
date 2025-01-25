@@ -27,7 +27,6 @@ services:
     environment:
       REACT_PUBLIC_API_URL: ${REACT_PUBLIC_API_URL}
       REACT_PUBLIC_SERVER_PYTHON_URL: ${REACT_PUBLIC_SERVER_PYTHON_URL}
-    command: ["npm", "run", "dev"]
     networks:
       mynetwork:
         ipv4_address: 172.28.0.3

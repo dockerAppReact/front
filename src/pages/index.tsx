@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { CardImage } from '../components/Card';
 import { Grid, Button, Group } from '@mantine/core';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContect';
 import { mdiAccount } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -16,7 +16,7 @@ interface ImageData {
 
 export default function HomePage() {
   const auth = useAuth();
-  const router = useRouter();
+  const router = useNavigate();
   const [loading, setLoading] = useState(true);
   const [imageData, setImageData] = useState<ImageData[]>([]);
 
@@ -24,7 +24,7 @@ export default function HomePage() {
     if (auth?.isAuthenticated) {
       setLoading(false);
     } else {
-      router.push('/login');
+      router('/login');
     }
   }, [auth?.isAuthenticated, router]);
 
